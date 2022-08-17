@@ -35,15 +35,26 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Upload Release Asset Linux
-        id: upload-release-asset-linux
+      - name: Upload Release Asset Linux (amd64)
+        id: upload-release-asset-linux-amd64
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/mcsrv_linux
-          asset_name: mcsrv_linux
+          asset_path: ./build/mcsrv_linux_amd64
+          asset_name: mcsrv_linux_amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset Linux (arm64)
+        id: upload-release-asset-linux-arm64
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/mcsrv_linux_arm64
+          asset_name: mcsrv_linux_arm64
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset Windows
