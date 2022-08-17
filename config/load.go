@@ -7,12 +7,12 @@ import (
 	"io/ioutil"
 )
 
-type SrvCtlConfig struct {
-	ident              string
+type ConfigStruct struct {
+	Ident              string
 	DiscordWebhookPath string
 }
 
-func Load() (config *SrvCtlConfig, err error) {
+func Load() (config *ConfigStruct, err error) {
 
 	f, fileErr := ioutil.ReadFile("requirements.json")
 
