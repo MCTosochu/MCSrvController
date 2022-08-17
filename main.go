@@ -13,25 +13,29 @@ import (
 )
 
 func main() {
-	config, configLoadError := config.Load()
+	configData, configLoadError := config.Load()
 
 	if configLoadError != nil {
 		fmt.Println(configLoadError)
 		os.Exit(1)
 	}
 
-	//Gracefully Shutdown
-	go func() {
-		trap := make(chan os.Signal, 1)
-		signal.Notify(trap, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT)
-		<-trap
-		server.Finisher(0, config)
-	}()
+	status := &(config.StatusSet{
+		Config: configData,
+		Srv:    nil,
+	})
 
-	logger.ControllerStatus(true, config)
+	logger.ControllerStatus(true, status.Config)
 
 	time.Sleep(1 * time.Second)
 
-	server.Listen(config)
+	server.Listen(status)
 
+	//Gracefully Shutdown
+	func() {
+		trap := make(chan os.Signal, 1)
+		signal.Notify(trap, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT)
+		<-trap
+		server.Finisher(0, status)
+	}()
 }

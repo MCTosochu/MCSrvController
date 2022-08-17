@@ -5,17 +5,26 @@ import (
 	"net/http"
 
 	"github.com/MCTosochu/MCSrvController/config"
+	"github.com/MCTosochu/MCSrvController/logger"
 )
 
-func Listen(config *config.ConfigStruct) {
-	http.HandleFunc("/", version)
-	err := http.ListenAndServe(":"+config.Port, nil)
-	if err != nil {
-		FatalAndExit(
-			fmt.Sprint(fmt.Errorf("WebServer Listen Error: %w", err)),
-			config,
-		)
-	}
+var globalStatus *config.StatusSet
+
+func Listen(status *config.StatusSet) {
+	globalStatus = status
+	status.Srv = &http.Server{Addr: ":" + globalStatus.Config.Port}
+
+	go func() {
+		logger.WebServerStatus(true, globalStatus.Config)
+		err := status.Srv.ListenAndServe()
+		if err != http.ErrServerClosed {
+			FatalErrorAndExit(
+				fmt.Errorf("WebServer Listen Error: %w", err),
+				globalStatus,
+			)
+		}
+	}()
+
 }
 
 func version(w http.ResponseWriter, r *http.Request) {
