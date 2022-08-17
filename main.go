@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/MCTosochu/MCSrvController/config"
+	"github.com/MCTosochu/MCSrvController/logger"
 )
 
 func main() {
@@ -14,4 +15,6 @@ func main() {
 		fmt.Println(configLoadError)
 		os.Exit(1)
 	}
+
+	logger.Status(true, config)
 }
