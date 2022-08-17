@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	_, configLoadError := config.Load()
+	config, configLoadError := config.Load()
 
 	if configLoadError != nil {
 		fmt.Println(configLoadError)

@@ -1,24 +1,28 @@
 package config
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
-	"os"
+	"io/ioutil"
 )
 
 type SrvCtlConfig struct {
-	RepositoryPath     string
+	ident              string
 	DiscordWebhookPath string
 }
 
-func Load() (*SrvCtlConfig, error) {
+func Load() (config *SrvCtlConfig, err error) {
 
-	f, err := os.Open("requirements.json")
+	f, fileErr := ioutil.ReadFile("requirements.json")
 
-	if err != nil {
+	if fileErr != nil {
 		return nil, fmt.Errorf("requirements.json not found.")
 	}
 
-	defer f.Close()
+	if jsonErr := json.NewDecoder(bytes.NewReader(f)).Decode(&config); jsonErr != nil {
+		return nil, fmt.Errorf("requirements.json is wrong as JSON.")
+	}
 
-	return nil, nil
+	return
 }
