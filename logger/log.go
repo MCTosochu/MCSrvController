@@ -3,6 +3,7 @@ package logger
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -19,7 +20,10 @@ func SendDiscord(config *config.ConfigStruct, data BaseDiscordEmbeds) {
 
 	payload, err := json.Marshal(dataJson)
 
-	if err == nil {
+	if err != nil {
+		fmt.Println("Error: SendDiscord could not stringify JSON.")
+		fmt.Println(dataJson)
+		fmt.Println(err)
 		return
 	}
 
