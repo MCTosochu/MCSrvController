@@ -9,7 +9,7 @@ import (
 )
 
 func Finisher(exitCode int, config *config.ConfigStruct) {
-	logger.Status(false, config)
+	logger.ControllerStatus(false, config)
 	os.Exit(exitCode)
 }
 

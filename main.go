@@ -28,7 +28,7 @@ func main() {
 		server.Finisher(0, config)
 	}()
 
-	logger.Status(true, config)
+	logger.ControllerStatus(true, config)
 
 	time.Sleep(1 * time.Second)
 

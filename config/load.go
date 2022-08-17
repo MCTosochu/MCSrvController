@@ -10,7 +10,7 @@ import (
 type ConfigStruct struct {
 	Ident              string
 	DiscordWebhookPath string
-	Port               uint32
+	Port               string
 }
 
 func Load() (config *ConfigStruct, err error) {

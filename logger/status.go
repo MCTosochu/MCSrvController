@@ -7,8 +7,8 @@ import (
 	"github.com/MCTosochu/MCSrvController/config"
 )
 
-func Status(up bool, config *config.ConfigStruct) {
-	Text := strings.Join([]string{"ServerController Status", map[bool]string{true: "Up!", false: "Shutdown..."}[up]}, ": ")
+func status(target string, up bool, config *config.ConfigStruct) {
+	Text := strings.Join([]string{target, " Status: ", map[bool]string{true: "Up!", false: "Shutdown..."}[up]}, "")
 	Color := map[bool]int32{true: 46417, false: 11730995}[up]
 
 	fmt.Println(Text)
@@ -16,4 +16,12 @@ func Status(up bool, config *config.ConfigStruct) {
 		Title: Text,
 		Color: Color,
 	})
+}
+
+func ControllerStatus(up bool, config *config.ConfigStruct) {
+	status("Controller", up, config)
+}
+
+func WebServerStatus(up bool, config *config.ConfigStruct) {
+	status("WebServer", up, config)
 }

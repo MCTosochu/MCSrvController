@@ -9,7 +9,7 @@ import (
 
 func Listen(config *config.ConfigStruct) {
 	http.HandleFunc("/", version)
-	err := http.ListenAndServe(":-1", nil)
+	err := http.ListenAndServe(":"+config.Port, nil)
 	if err != nil {
 		FatalAndExit(
 			fmt.Sprint(fmt.Errorf("WebServer Listen Error: %w", err)),
